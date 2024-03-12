@@ -18,9 +18,19 @@ function App() {
     "Eat Healthy",
     "Sleep early",
  ]);
+ const addTask = (taskText)=> {
+  if (taskText.trim() !== '' && !tasks.includes(taskText)) {
+    setTasks([...tasks, taskText]);
+    console.log(`Task "${taskText}" added successfully.`);
+  } else {
+    console.log('Something went wrong. Please add a new task again.');
+  }
+ };
+
   return (
     <SafeAreaView>
       <ToDoList tasks={tasks} />
+      <ToDoForm addTask={addTask} />
       <ToDoForm />
     </SafeAreaView>
   );
