@@ -1,38 +1,20 @@
-/**
- * My To Do List App
- *
- * @format
- */
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { SafeAreaView } from 'react-native';
-import ToDoList from './components/ToDoList';
-import ToDoForm from './components/ToDoForm';
-import useState from 'react';
+import HomeScreen from './src/screens/HomeScreen';
+import AboutScreen from './src/screens/AboutScreen';
+
+const Stack = createNativeStackNavigator();
 
 function App() {
-  const [tasks , setTasks] = React.useState([
-    "Wake up early", 
-    "Go to the gym for an hour",
-    "Go to work",
-    "Eat Healthy",
-    "Sleep early",
- ]);
- const addTask = (taskText)=> {
-  if (taskText.trim() !== '' && !tasks.includes(taskText)) {
-    setTasks([...tasks, taskText]);
-    console.log(`Task "${taskText}" added successfully.`);
-  } else {
-    console.log('Something went wrong. Please add a new task again.');
-  }
- };
-
+  
   return (
-    <SafeAreaView>
-      <ToDoList tasks={tasks} />
-      <ToDoForm addTask={addTask} />
-      <ToDoForm />
-    </SafeAreaView>
+    <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="About" component={AboutScreen} />
+        </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
