@@ -1,12 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, TextInput, Button, View } from 'react-native';
+import { require } from 'react-native-reanimated';
 
 function ToDoForm({ addTask }) {
   const [taskText, setTaskText] = useState('');
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const data = require('../../data/tasks.json');
+    setTasks(data.tasks);
+  }, []);
 
   const handleAddTask = () => {
-    addTask(taskText);
-    setTaskText('');
+    if (taskText.trim()!== '') {
+      const newTask = {
+        id: Math.random().toString(36).substring(2),
+        text: taskText,
+      };
+      setTasks((prevTasks) => [newTask,...prevTasks]);
+      setTaskText('');
+    }
+  };
+
+  const handleGenerateRandomTask = () => {
+    const randomIndex = Math.floor(Math.random() * tasks.length);
+    const randomTask = tasks[randomIndex];
+    setTaskText(randomTask.text);
   };
 
   return (
@@ -18,6 +37,7 @@ function ToDoForm({ addTask }) {
         value={taskText}
       />
       <Button title="Add Task" onPress={handleAddTask} />
+      <Button title="Generate Random Task" onPress={handleGenerateRandomTask} />
     </View>
   );
 }
@@ -37,6 +57,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     marginRight: 10,
+  },
+  button: {
+    marginTop: 20,
   },
 });
 
